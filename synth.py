@@ -4,12 +4,21 @@ from array import array
 
 PROGRESSION = ["Cmaj7", "Dm7", "G7", "C6"]
 
-CHORDS = {
-    "Dm7": [38, 50, 53, 57, 60],
-    "G7": [31, 50, 53, 55, 59],
-    "Cmaj7": [36, 48, 52, 55, 59],
-    "C6": [36, 48, 52, 57, 64]
-}
+NOTES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
+
+def transpose(notes, offset):
+    return [note + offset for note in notes]
+
+CHORDS = {}
+
+for offset, root in enumerate(NOTES):
+    CHORDS[root] = transpose([36, 48, 52, 55], offset)
+    CHORDS[root + 'm'] = transpose([36, 48, 51, 55], offset)
+    CHORDS[root + 'm7'] = transpose([36, 48, 51, 55, 58], offset)
+    CHORDS[root + '7'] = transpose([24, 43, 46, 48, 52], offset)
+    CHORDS[root + 'maj7'] = transpose([36, 48, 52, 55, 59], offset)
+    CHORDS[root + '6'] = transpose([36, 48, 52, 57, 64], offset)
+
 
 class Voice(object):
     def __init__(self, note, length):
