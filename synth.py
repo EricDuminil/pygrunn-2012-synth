@@ -38,6 +38,8 @@ class Voice(object):
 
         return sample
 
+    next = __next__ # For Python2 compatibility
+
 class ADSREnvelope(object):
     """ ADSR envelope generator class """
 
@@ -78,6 +80,9 @@ class ADSREnvelope(object):
                 self.level += self.decay * (self.sustain - self.level)
 
         return self.level
+
+    next = __next__ # For Python2 compatibility
+
 
 def oscillator(pitch):
     """ Generate a waveform at a given pitch """
