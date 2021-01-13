@@ -1,4 +1,3 @@
-import itertools
 import math
 import wave
 from array import array
@@ -26,7 +25,7 @@ class Voice(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         if self.t >= self.length:
             self.released = True
             self.adsr.trigger_release()
@@ -62,7 +61,7 @@ class ADSREnvelope(object):
     def trigger_release(self):
         self.released = True
 
-    def next(self):
+    def __next__(self):
         if self.released:
             self.level += self.release * (1.0 - (1.0 / self.RATIO) - self.level)
             if self.level < 0.0:
@@ -150,7 +149,7 @@ def voice_combiner(iterable):
 
         # stop yielding if we're done
         if stopping and len(voice_pool) == 0:
-            raise StopIteration
+            return
 
         yield sample
         t += 1000.0 / 44100.0
