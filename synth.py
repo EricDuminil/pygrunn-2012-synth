@@ -2,6 +2,9 @@ import math
 import wave
 from array import array
 
+#TODO: Add argparse, with Chords as input
+#TODO: Add tempo as parameter
+#TODO: Add repeat as parameter
 PROGRESSION = ["Cmaj7", "Dm7", "G7", "C6"]
 
 NOTES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
@@ -12,6 +15,7 @@ def transpose(notes, offset):
 CHORDS = {}
 
 for offset, root in enumerate(NOTES):
+    #TODO: Add dim, aug, sus2, sus4, 5
     CHORDS[root] = transpose([36, 48, 52, 55], offset)
     CHORDS[root + 'm'] = transpose([36, 48, 51, 55], offset)
     CHORDS[root + 'm7'] = transpose([36, 48, 51, 55, 58], offset)
