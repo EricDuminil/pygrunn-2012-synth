@@ -7,21 +7,22 @@ import argparse
 #TODO: Add metre as parameter
 #TODO: Add chords to output name
 
-NOTES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
+NOTES = ['C', 'C# Db', 'D', 'Eb D#', 'E', 'F', 'F# Gb', 'G', 'Ab G#', 'A', 'Bb A#', 'B']
 
 def transpose(notes, offset):
     return [note + offset for note in notes]
 
 CHORDS = {}
 
-for offset, root in enumerate(NOTES):
-    #TODO: Add dim, aug, sus2, sus4, 5
-    CHORDS[root] = transpose([36, 48, 52, 55], offset)
-    CHORDS[root + 'm'] = transpose([36, 48, 51, 55], offset)
-    CHORDS[root + 'm7'] = transpose([36, 48, 51, 55, 58], offset)
-    CHORDS[root + '7'] = transpose([24, 43, 46, 48, 52], offset)
-    CHORDS[root + 'maj7'] = transpose([36, 48, 52, 55, 59], offset)
-    CHORDS[root + '6'] = transpose([36, 48, 52, 57, 64], offset)
+for offset, roots in enumerate(NOTES):
+    for root in roots.split(' '):
+        #TODO: Add dim, aug, sus2, sus4, 5
+        CHORDS[root] = transpose([36, 48, 52, 55], offset)
+        CHORDS[root + 'm'] = transpose([36, 48, 51, 55], offset)
+        CHORDS[root + 'm7'] = transpose([36, 48, 51, 55, 58], offset)
+        CHORDS[root + '7'] = transpose([24, 43, 46, 48, 52], offset)
+        CHORDS[root + 'maj7'] = transpose([36, 48, 52, 55, 59], offset)
+        CHORDS[root + '6'] = transpose([36, 48, 52, 57, 64], offset)
 
 
 class Voice(object):
