@@ -1,11 +1,13 @@
 import math
 import wave
 from array import array
+import sys
 
 #TODO: Add argparse, with Chords as input
 #TODO: Add tempo as parameter
 #TODO: Add repeat as parameter
-PROGRESSION = ["Cmaj7", "Dm7", "G7", "C6"]
+#TODO: Add chords to output name
+PROGRESSION = sys.argv[1:]
 
 NOTES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
 
