@@ -2,6 +2,7 @@ import math
 import wave
 from array import array
 import argparse
+import sys
 
 #TODO: Add tempo as parameter
 #TODO: Add metre as parameter
@@ -114,7 +115,11 @@ def amplifier(gain, iterable):
 
 def chord_generator(iterable):
     """ Converts chord symbols to a list of MIDI notes. """
-    return (CHORDS[chord_symbol] for chord_symbol in iterable)
+    for chord_symbol in iterable:
+        try:
+            yield CHORDS[chord_symbol]
+        except:
+            sys.exit("Unknown chord : %s" % chord_symbol)
 
 def comp_pattern_generator(iterable):
     """ Converts a list of MIDI notes to (length, notes) tuples in a jazzy pattern. """
