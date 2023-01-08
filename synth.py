@@ -1,13 +1,11 @@
 import math
 import wave
 from array import array
-import sys
+import argparse
 
-#TODO: Add argparse, with Chords as input
 #TODO: Add tempo as parameter
-#TODO: Add repeat as parameter
+#TODO: Add metre as parameter
 #TODO: Add chords to output name
-PROGRESSION = sys.argv[1:]
 
 NOTES = ['C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
 
@@ -178,22 +176,31 @@ def quantizer(iterable):
     """ Converts floating point audio signals to 16 bit integers """
     return (int(32767.0 * sample) for sample in iterable)
 
-# create pipeline
-chords = chord_generator(PROGRESSION)
-comp_pattern = comp_pattern_generator(chords)
-voices = voice_generator(comp_pattern)
-samples = voice_combiner(voices)
-attenuated_samples = amplifier(0.5, samples)
-output = quantizer(attenuated_samples)
 
-# prepare audio stream
-audiofile = wave.open("output.wav", "wb")
-audiofile.setnchannels(1)
-audiofile.setsampwidth(2)
-audiofile.setframerate(44100)
+if __name__ == '__main__':
+    # create pipeline
 
-# render samples
-output = list(output)
-audiofile.writeframes(array('h', output))
-audiofile.writeframes(array('h', output))
-audiofile.close()
+    parser = argparse.ArgumentParser(description="Synthesizer, playing the input chords.")
+    parser.add_argument('chords', type=str, nargs='+', help='Chords to play e.g. (Cmaj7  Dm7  G7 C6)')
+    parser.add_argument('-r', '--repeat', type=int, default=2, help='How many times the chord progression should be repeated (Default : 2)')
+    parser.add_argument('-o', '--output', type=str, default='output.wav', help='Name of output file. (Default: output.wav)')
+    args = parser.parse_args()
+
+    chords = chord_generator(args.chords)
+    comp_pattern = comp_pattern_generator(chords)
+    voices = voice_generator(comp_pattern)
+    samples = voice_combiner(voices)
+    attenuated_samples = amplifier(0.5, samples)
+    output = quantizer(attenuated_samples)
+
+    # prepare audio stream
+    audiofile = wave.open(args.output, "wb")
+    audiofile.setnchannels(1)
+    audiofile.setsampwidth(2)
+    audiofile.setframerate(44100)
+
+    # render samples
+    output = list(output)
+    for _ in range(args.repeat):
+        audiofile.writeframes(array('h', output))
+    audiofile.close()
